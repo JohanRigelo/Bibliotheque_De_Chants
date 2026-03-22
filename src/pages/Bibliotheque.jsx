@@ -15,6 +15,7 @@ import { db } from "../firebase";
 // getDocs : permet de récupérer tous les documents d'une collection
 import { collection, getDocs } from "firebase/firestore";
 
+import { useNavigate } from "react-router-dom";
 
 // ============================================
 // COMPOSANT PRINCIPAL
@@ -36,6 +37,7 @@ function Bibliotheque() {
   // "setRecherche" : la fonction pour modifier ce texte
   // "" : valeur de départ = texte vide
   const [recherche, setRecherche] = useState("");
+  const navigate = useNavigate();
 
 
   // ============================================
@@ -96,7 +98,7 @@ function Bibliotheque() {
   // Tout ce qui est entre () après return est du JSX
   // JSX = HTML avec du JavaScript dedans
   // ============================================
-  return (
+ return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
 
       {/* Titre principal de la page */}
@@ -104,12 +106,17 @@ function Bibliotheque() {
         🎵 Bibliothèque de Chants
       </h1>
 
-      {/* 
-        Barre de recherche
-        value={recherche} : la valeur affichée est toujours celle de notre variable "recherche"
-        onChange : à chaque frappe au clavier, on met à jour "recherche" avec setRecherche
-        e.target.value : c'est le texte actuellement dans le champ
-      */}
+      {/* Bouton pour aller sur la page d'ajout */}
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <button
+          onClick={() => navigate("/ajouter")}
+          style={{ padding: "10px 24px", backgroundColor: "#1e40af", color: "white", border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+        >
+          ➕ Ajouter un chant
+        </button>
+      </div>
+
+      {/* Barre de recherche */}
       <input
         type="text"
         placeholder="Rechercher un chant..."
@@ -130,11 +137,6 @@ function Bibliotheque() {
       {/* Conteneur de la liste des chants */}
       <div style={{ maxWidth: "500px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "12px" }}>
 
-        {/*
-          .map() parcourt chaque chant de la liste filtrée
-          et retourne une carte HTML pour chacun
-          key={chant.id} : obligatoire en React pour identifier chaque élément de liste
-        */}
         {chantsFiltres.map((chant) => (
           <div
             key={chant.id}
@@ -146,17 +148,11 @@ function Bibliotheque() {
               cursor: "pointer"
             }}
           >
-            {/* On affiche le titre et la tonalité de chaque chant */}
             <h2 style={{ color: "#1e293b", fontSize: "1.1rem", fontWeight: "600" }}>{chant.titre}</h2>
             <p style={{ color: "#64748b", fontSize: "0.9rem" }}>Tonalité : {chant.tonalite}</p>
           </div>
         ))}
 
-        {/*
-          Message affiché uniquement si aucun chant ne correspond à la recherche
-          En JSX, on utilise && pour afficher quelque chose sous condition :
-          "si chantsFiltres.length === 0, alors affiche ce paragraphe"
-        */}
         {chantsFiltres.length === 0 && (
           <p style={{ textAlign: "center", color: "#94a3b8" }}>Aucun chant trouvé.</p>
         )}
