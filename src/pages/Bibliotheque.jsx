@@ -139,7 +139,7 @@ function Bibliotheque() {
 
         {chantsFiltres.map((chant) => (
           <div
-            key={chant.id}
+            key={chant.id}onClick={() => navigate(`/chant/${chant.id}`)}
             style={{
               backgroundColor: "white",
               borderRadius: "12px",
