@@ -124,4 +124,48 @@ export function parseContenu(contenu, demiTons = 0) {
 
       return segments;
     });
+
+}
+// ============================================
+// FONCTION : extraireMetadonnees
+// Lit le contenu brut du chant et extrait
+// les balises de métadonnées ChordPro :
+//
+// {t:...} ou {title:...}     → titre du chant
+// {st:...} ou {subtitle:...} → auteur / sous-titre
+// {c:...} ou {comment:...}   → commentaire / copyright
+//                               (peut apparaître plusieurs fois)
+// ============================================
+export function extraireMetadonnees(contenu) {
+
+  const meta = {
+    titre: "",
+    sousTitre: "",
+    commentaires: [] // tableau car il peut y avoir plusieurs {c:}
+  };
+
+  contenu.split("\n").forEach((ligne) => {
+    const l = ligne.trim();
+
+    // Balise titre : {t:Mon titre} ou {title:Mon titre}
+    const matchTitre = l.match(/^\{(?:t|title):(.+)\}$/i);
+    if (matchTitre) {
+      meta.titre = matchTitre[1].trim();
+    }
+
+    // Balise sous-titre : {st:Auteur} ou {subtitle:Auteur}
+    const matchSousTitre = l.match(/^\{(?:st|subtitle):(.+)\}$/i);
+    if (matchSousTitre) {
+      meta.sousTitre = matchSousTitre[1].trim();
+    }
+
+    // Balise commentaire/copyright : {c:Texte} ou {comment:Texte}
+    // On les accumule dans un tableau car il peut y en avoir plusieurs
+    const matchCommentaire = l.match(/^\{(?:c|comment):(.+)\}$/i);
+    if (matchCommentaire) {
+      meta.commentaires.push(matchCommentaire[1].trim());
+    }
+  });
+
+  return meta;
 }
