@@ -106,15 +106,26 @@ function Bibliotheque() {
         🎵 Bibliothèque de Chants
       </h1>
 
-      {/* Bouton pour aller sur la page d'ajout */}
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <button
-          onClick={() => navigate("/ajouter")}
-          style={{ padding: "10px 24px", backgroundColor: "#1e40af", color: "white", border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
-        >
-          ➕ Ajouter un chant
-        </button>
-      </div>
+      {/* Boutons en haut de la bibliothèque */}
+<div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "20px" }}>
+
+  {/* Bouton pour ajouter un nouveau chant */}
+  <button
+    onClick={() => navigate("/ajouter")}
+    style={{ padding: "10px 24px", backgroundColor: "#1e40af", color: "white", border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+  >
+    ➕ Ajouter un chant
+  </button>
+
+  {/* Bouton pour accéder aux setlists */}
+  <button
+    onClick={() => navigate("/listes")}
+    style={{ padding: "10px 24px", backgroundColor: "white", color: "#1e40af", border: "2px solid #1e40af", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+  >
+    📋 Mes listes
+  </button>
+
+</div>
 
       {/* Barre de recherche */}
       <input
