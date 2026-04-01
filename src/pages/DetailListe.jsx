@@ -112,16 +112,17 @@ function DetailListe() {
       {/* Liste des chants */}
       <div style={{ maxWidth: "500px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "12px" }}>
 
-        {chants.map((chant) => (
+        {chants.map((chant, index) => (
           <div
-            key={chant.id}
-            style={{ backgroundColor: "white", borderRadius: "12px", padding: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-          >
+             key={chant.id}
+              style={{ backgroundColor: "white", borderRadius: "12px", padding: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+      >
             {/* Titre et tonalité — cliquable pour ouvrir le chant */}
-            <div
-              onClick={() => navigate(`/chant/${chant.id}`)}
-              style={{ cursor: "pointer", flex: 1 }}
-            >
+            {/* On passe l'id de la liste ET la position du chant dans l'URL */}
+          <div
+            onClick={() => navigate(`/chant/${chant.id}?listeId=${liste.id}&index=${index}`)}
+            style={{ cursor: "pointer", flex: 1 }}
+          >
               <h2 style={{ color: "#1e293b", fontSize: "1.1rem", fontWeight: "600", marginBottom: "4px" }}>
                 {chant.titre}
               </h2>
