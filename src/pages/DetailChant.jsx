@@ -39,6 +39,10 @@ useEffect(() => {
   // Nombre de demi-tons de transposition (0 = tonalité originale)
   const [transposition, setTransposition] = useState(0);
 
+  // Qualité actuellement sélectionnée dans le menu ("maj" ou "min")
+  // Sert uniquement à distinguer l'affichage entre par ex. "G" et "Gm" dans le menu déroulant
+  const [qualite, setQualite] = useState("maj");
+
   // Contrôle l'affichage de la modale de confirmation de suppression
   const [afficherConfirmation, setAfficherConfirmation] = useState(false);
 
@@ -171,17 +175,21 @@ const optionsTransposition = GAMME.flatMap((note, i) => {
   let demiTons = ((i - indexBase) + 12) % 12;
   if (demiTons > 6) demiTons -= 12;
 
-  // On crée l'option majeure (ex: "G" ou "G (Original)")
+  // "id" est unique par option : il évite que "G" et "Gm" soient confondus
+  // dans le <select> (ils auraient sinon la même "valeur" en demi-tons)
   const optionMajeure = {
+    id: `${demiTons}-maj`,
     valeur: demiTons,
+    qualite: "maj",
     label: demiTons === 0 && !chant.tonalite?.endsWith("m")
       ? `${note} (Original)`
       : note,
   };
 
-  // On crée l'option mineure (ex: "Gm" ou "Am (Original)")
   const optionMineure = {
+    id: `${demiTons}-min`,
     valeur: demiTons,
+    qualite: "min",
     label: demiTons === 0 && chant.tonalite?.endsWith("m")
       ? `${note}m (Original)`
       : `${note}m`,
@@ -290,13 +298,22 @@ const optionsTransposition = GAMME.flatMap((note, i) => {
           <label style={{ fontWeight: "600", color: "#1e293b" }}>
             🎵 Transposition :
           </label>
-          <select
-            value={transposition}
-            onChange={(e) => setTransposition(Number(e.target.value))}
+         <select
+            value={`${transposition}-${qualite}`}
+            onChange={(e) => {
+              // On retrouve l'option choisie via son id unique
+              const optionChoisie = optionsTransposition.find(
+                (opt) => opt.id === e.target.value
+              );
+              if (optionChoisie) {
+                setTransposition(optionChoisie.valeur);
+                setQualite(optionChoisie.qualite);
+              }
+            }}
             style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem" }}
           >
             {optionsTransposition.map((opt) => (
-              <option key={opt.valeur} value={opt.valeur}>
+              <option key={opt.id} value={opt.id}>
                 {opt.label}
               </option>
             ))}
