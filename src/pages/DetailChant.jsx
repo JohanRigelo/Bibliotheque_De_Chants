@@ -39,9 +39,6 @@ useEffect(() => {
   // Nombre de demi-tons de transposition (0 = tonalité originale)
   const [transposition, setTransposition] = useState(0);
 
-  // Qualité actuellement sélectionnée dans le menu ("maj" ou "min")
-  // Sert uniquement à distinguer l'affichage entre par ex. "G" et "Gm" dans le menu déroulant
-  const [qualite, setQualite] = useState("maj");
 
   // Contrôle l'affichage de la modale de confirmation de suppression
   const [afficherConfirmation, setAfficherConfirmation] = useState(false);
@@ -161,43 +158,33 @@ useEffect(() => {
 // Les 12 notes de la gamme chromatique
 const GAMME = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-// On nettoie la tonalité de base : on retire le "m" si c'est une tonalité mineure
+// On détermine si le chant est en tonalité mineure (ex: "Am") ou majeure (ex: "C")
+const estMineur = chant.tonalite?.endsWith("m") || false;
+
+// On isole la note de base, sans le "m" éventuel
 // Ex: "Am" → "A", "C#m" → "C#", "G" → "G"
-const noteBase = chant.tonalite?.replace(/m$/, "") || "C";
+const noteBase = estMineur ? chant.tonalite.slice(0, -1) : (chant.tonalite || "C");
 
 // On trouve la position de la note de base dans la gamme
 const indexBase = GAMME.indexOf(noteBase);
 
-// On génère 24 options : 12 majeures + 12 mineures
-// Chaque note a donc deux options dans le menu (ex: "G" et "Gm")
-const optionsTransposition = GAMME.flatMap((note, i) => {
+// On génère 12 options, toutes de la même qualité que le chant d'origine
+// (uniquement des tonalités majeures si le chant est en majeur,
+//  uniquement des tonalités mineures s'il est en mineur)
+const optionsTransposition = GAMME.map((note, i) => {
   // Calcul du nombre de demi-tons entre la tonalité de base et cette note
   let demiTons = ((i - indexBase) + 12) % 12;
   if (demiTons > 6) demiTons -= 12;
 
-  // "id" est unique par option : il évite que "G" et "Gm" soient confondus
-  // dans le <select> (ils auraient sinon la même "valeur" en demi-tons)
-  const optionMajeure = {
-    id: `${demiTons}-maj`,
-    valeur: demiTons,
-    qualite: "maj",
-    label: demiTons === 0 && !chant.tonalite?.endsWith("m")
-      ? `${note} (Original)`
-      : note,
-  };
+  // On ajoute le "m" au label si le chant d'origine est en mineur
+  const label = estMineur ? `${note}m` : note;
 
-  const optionMineure = {
-    id: `${demiTons}-min`,
+  return {
     valeur: demiTons,
-    qualite: "min",
-    label: demiTons === 0 && chant.tonalite?.endsWith("m")
-      ? `${note}m (Original)`
-      : `${note}m`,
+    label: demiTons === 0 ? `${label} (Original)` : label,
   };
-
-  // flatMap : chaque note génère 2 options dans le tableau final
-  return [optionMajeure, optionMineure];
 });
+
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
 
@@ -299,21 +286,12 @@ const optionsTransposition = GAMME.flatMap((note, i) => {
             🎵 Transposition :
           </label>
          <select
-            value={`${transposition}-${qualite}`}
-            onChange={(e) => {
-              // On retrouve l'option choisie via son id unique
-              const optionChoisie = optionsTransposition.find(
-                (opt) => opt.id === e.target.value
-              );
-              if (optionChoisie) {
-                setTransposition(optionChoisie.valeur);
-                setQualite(optionChoisie.qualite);
-              }
-            }}
+            value={transposition}
+            onChange={(e) => setTransposition(Number(e.target.value))}
             style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem" }}
           >
             {optionsTransposition.map((opt) => (
-              <option key={opt.id} value={opt.id}>
+              <option key={opt.valeur} value={opt.valeur}>
                 {opt.label}
               </option>
             ))}
