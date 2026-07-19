@@ -154,22 +154,42 @@ useEffect(() => {
     }
   };
 
-  // Les 12 notes de la gamme chromatique
-  const GAMME = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+// Les 12 notes de la gamme chromatique
+const GAMME = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-  // On trouve la position de la tonalité de base dans la gamme
-  const indexBase = GAMME.indexOf(chant.tonalite);
+// On nettoie la tonalité de base : on retire le "m" si c'est une tonalité mineure
+// Ex: "Am" → "A", "C#m" → "C#", "G" → "G"
+const noteBase = chant.tonalite?.replace(/m$/, "") || "C";
 
-  // On génère une option pour chacune des 12 notes
-  const optionsTransposition = GAMME.map((note, i) => {
-    let demiTons = ((i - indexBase) + 12) % 12;
-    if (demiTons > 6) demiTons -= 12;
-    return {
-      valeur: demiTons,
-      label: demiTons === 0 ? `${note} (Original)` : note,
-    };
-  });
+// On trouve la position de la note de base dans la gamme
+const indexBase = GAMME.indexOf(noteBase);
 
+// On génère 24 options : 12 majeures + 12 mineures
+// Chaque note a donc deux options dans le menu (ex: "G" et "Gm")
+const optionsTransposition = GAMME.flatMap((note, i) => {
+  // Calcul du nombre de demi-tons entre la tonalité de base et cette note
+  let demiTons = ((i - indexBase) + 12) % 12;
+  if (demiTons > 6) demiTons -= 12;
+
+  // On crée l'option majeure (ex: "G" ou "G (Original)")
+  const optionMajeure = {
+    valeur: demiTons,
+    label: demiTons === 0 && !chant.tonalite?.endsWith("m")
+      ? `${note} (Original)`
+      : note,
+  };
+
+  // On crée l'option mineure (ex: "Gm" ou "Am (Original)")
+  const optionMineure = {
+    valeur: demiTons,
+    label: demiTons === 0 && chant.tonalite?.endsWith("m")
+      ? `${note}m (Original)`
+      : `${note}m`,
+  };
+
+  // flatMap : chaque note génère 2 options dans le tableau final
+  return [optionMajeure, optionMineure];
+});
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
 
