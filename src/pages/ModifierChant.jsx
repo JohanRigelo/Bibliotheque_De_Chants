@@ -18,6 +18,8 @@ import { db } from "../firebase";
 // updateDoc : met à jour un document existant (≠ addDoc qui en crée un nouveau)
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
+import { mettreAJourTagKey } from "../accords";
+
 function ModifierChant() {
 
   // On récupère l'id du chant depuis l'URL
@@ -35,7 +37,7 @@ function ModifierChant() {
   const [chargement, setChargement] = useState(true);
 
   // Liste de toutes les tonalités disponibles dans le menu déroulant
-  const tonalites = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  const tonalites = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"];
 
   // ============================================
   // CHARGEMENT DES DONNÉES EXISTANTES
@@ -140,7 +142,12 @@ function ModifierChant() {
           </label>
           <select
             value={tonalite}
-            onChange={(e) => setTonalite(e.target.value)}
+            onChange={(e) => {
+            const nouvelleTonalite = e.target.value;
+            setTonalite(nouvelleTonalite);
+            // On met à jour automatiquement la balise {key:...} dans le contenu
+            setContenu((contenuActuel) => mettreAJourTagKey(contenuActuel, nouvelleTonalite));
+          }}
             style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box" }}
           >
             {/* On génère une option pour chaque tonalité */}

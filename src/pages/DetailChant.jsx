@@ -4,6 +4,7 @@ import { doc, getDoc, deleteDoc, updateDoc, collection, getDocs, addDoc } from "
 import { parseContenu, extraireMetadonnees } from "../accords";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
+
 function DetailChant() {
 
   const { id } = useParams();
@@ -78,6 +79,8 @@ useEffect(() => {
   // On extrait le titre, sous-titre et commentaires des balises ChordPro
   const meta = extraireMetadonnees(chant.contenu);
 
+
+  
   // ============================================
   // FONCTION : supprimerChant
   // Supprime définitivement le chant dans Firebase

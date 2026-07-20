@@ -10,6 +10,7 @@ import { collection, addDoc } from "firebase/firestore";
 
 // useNavigate : permet de rediriger l'utilisateur vers une autre page
 import { useNavigate } from "react-router-dom";
+import { mettreAJourTagKey } from "../accords";
 
 function AjouterChant() {
 
@@ -23,7 +24,10 @@ function AjouterChant() {
   const navigate = useNavigate();
 
   // Liste de toutes les tonalités disponibles
-  const tonalites = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+  const tonalites = [
+  "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+  "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"
+];
 
   // ============================================
   // FONCTION DE SAUVEGARDE
@@ -89,7 +93,12 @@ function AjouterChant() {
           {/* onChange met à jour "tonalite" à chaque changement de sélection */}
           <select
             value={tonalite}
-            onChange={(e) => setTonalite(e.target.value)}
+            onChange={(e) => {
+            const nouvelleTonalite = e.target.value;
+            setTonalite(nouvelleTonalite);
+            // On met à jour automatiquement la balise {key:...} dans le contenu
+            setContenu((contenuActuel) => mettreAJourTagKey(contenuActuel, nouvelleTonalite));
+          }}
             style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box" }}
           >
             {/* On génère une option pour chaque tonalité de la liste */}

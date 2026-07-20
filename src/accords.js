@@ -169,3 +169,25 @@ export function extraireMetadonnees(contenu) {
 
   return meta;
 }
+// ============================================
+// FONCTION : mettreAJourTagKey
+// Insère ou remplace la balise {key:...} en fonction
+// de la tonalité choisie dans le menu déroulant
+// ============================================
+export function mettreAJourTagKey(contenu, tonalite) {
+  const lignes = contenu.split("\n");
+
+  // On cherche si une balise {key:...} existe déjà
+  const indexLigneKey = lignes.findIndex((l) =>
+    l.trim().match(/^\{key:.*\}$/i)
+  );
+
+  if (indexLigneKey !== -1) {
+    // Elle existe : on la remplace par la nouvelle tonalité
+    lignes[indexLigneKey] = `{key:${tonalite}}`;
+    return lignes.join("\n");
+  }
+
+  // Elle n'existe pas encore : on l'ajoute en première ligne
+  return `{key:${tonalite}}\n${contenu}`;
+}
