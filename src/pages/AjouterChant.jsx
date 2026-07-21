@@ -25,9 +25,9 @@ function AjouterChant() {
 
   // Liste de toutes les tonalités disponibles
   const tonalites = [
-  "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
-  "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"
-];
+    "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+    "Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"
+  ];
 
   // ============================================
   // FONCTION DE SAUVEGARDE
@@ -61,18 +61,18 @@ function AjouterChant() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
+    <div className="min-h-screen bg-[#f0f4ff] p-5">
 
       {/* Titre de la page */}
-      <h1 style={{ textAlign: "center", color: "#1e40af", fontSize: "2rem", fontWeight: "bold", marginBottom: "24px" }}>
+      <h1 className="text-center text-blue-800 text-3xl font-bold mb-6">
         ➕ Ajouter un chant
       </h1>
 
-      <div style={{ maxWidth: "600px", margin: "0 auto", backgroundColor: "white", borderRadius: "16px", padding: "24px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)" }}>
+      <div className="max-w-[600px] mx-auto bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.1)]">
 
         {/* Champ Titre */}
-        <div style={{ marginBottom: "16px" }}>
-          <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", color: "#1e293b" }}>
+        <div className="mb-4">
+          <label className="block font-semibold mb-1.5 text-slate-800">
             Titre du chant
           </label>
           <input
@@ -80,13 +80,13 @@ function AjouterChant() {
             placeholder="Ex: Amazing Grace"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
-            style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box" }}
+            className="w-full p-2.5 rounded-lg border border-slate-300 text-base box-border"
           />
         </div>
 
         {/* Champ Tonalité */}
-        <div style={{ marginBottom: "16px" }}>
-          <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", color: "#1e293b" }}>
+        <div className="mb-4">
+          <label className="block font-semibold mb-1.5 text-slate-800">
             Tonalité de base
           </label>
           {/* select = menu déroulant */}
@@ -94,12 +94,12 @@ function AjouterChant() {
           <select
             value={tonalite}
             onChange={(e) => {
-            const nouvelleTonalite = e.target.value;
-            setTonalite(nouvelleTonalite);
-            // On met à jour automatiquement la balise {key:...} dans le contenu
-            setContenu((contenuActuel) => mettreAJourTagKey(contenuActuel, nouvelleTonalite));
-          }}
-            style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box" }}
+              const nouvelleTonalite = e.target.value;
+              setTonalite(nouvelleTonalite);
+              // On met à jour automatiquement la balise {key:...} dans le contenu
+              setContenu((contenuActuel) => mettreAJourTagKey(contenuActuel, nouvelleTonalite));
+            }}
+            className="w-full p-2.5 rounded-lg border border-slate-300 text-base box-border"
           >
             {/* On génère une option pour chaque tonalité de la liste */}
             {tonalites.map((t) => (
@@ -109,11 +109,11 @@ function AjouterChant() {
         </div>
 
         {/* Champ Contenu */}
-        <div style={{ marginBottom: "24px" }}>
-          <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", color: "#1e293b" }}>
+        <div className="mb-6">
+          <label className="block font-semibold mb-1.5 text-slate-800">
             Paroles et accords
           </label>
-          <p style={{ fontSize: "0.85rem", color: "#64748b", marginBottom: "8px" }}>
+          <p className="text-sm text-slate-500 mb-2">
             Place les accords entre crochets juste avant la syllabe. Ex: [G]Amazing [C]grace
           </p>
           {/* textarea = zone de texte multiligne */}
@@ -122,16 +122,16 @@ function AjouterChant() {
             value={contenu}
             onChange={(e) => setContenu(e.target.value)}
             rows={12}
-            style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box", fontFamily: "monospace", resize: "vertical" }}
+            className="w-full p-2.5 rounded-lg border border-slate-300 text-base box-border font-mono resize-y"
           />
         </div>
 
         {/* Boutons */}
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div className="flex gap-3">
           {/* Bouton Annuler : redirige vers la bibliothèque sans sauvegarder */}
           <button
             onClick={() => navigate("/")}
-            style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem", cursor: "pointer", color: "#64748b" }}
+            className="flex-1 p-3 rounded-lg border border-slate-300 bg-white text-base cursor-pointer text-slate-500"
           >
             Annuler
           </button>
@@ -139,7 +139,7 @@ function AjouterChant() {
           {/* Bouton Enregistrer : appelle la fonction sauvegarder() */}
           <button
             onClick={sauvegarder}
-            style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "none", backgroundColor: "#1e40af", color: "white", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+            className="flex-1 p-3 rounded-lg border-none bg-blue-800 text-white text-base cursor-pointer font-semibold"
           >
             Enregistrer
           </button>

@@ -30,16 +30,19 @@ function MesListes() {
   // ============================================
   const recupererListes = async () => {
     const snapshot = await getDocs(collection(db, "listes"));
-    const data = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
+    const data = snapshot.docs.map((d) => ({
+      id: d.id,
+      ...d.data()
     }));
     setListes(data);
   };
 
   // On charge les listes au démarrage de la page
   useEffect(() => {
-    recupererListes();
+    const charger = async () => {
+      await recupererListes();
+    };
+    charger();
   }, []);
 
   // ============================================
@@ -94,48 +97,48 @@ function MesListes() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
+    <div className="min-h-screen bg-[#f0f4ff] dark:bg-slate-900 p-5">
 
       {/* Bouton retour vers la bibliothèque */}
       <button
         onClick={() => navigate("/")}
-        style={{ marginBottom: "20px", padding: "8px 16px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", cursor: "pointer", color: "#64748b" }}
+        className="mb-5 px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 cursor-pointer text-slate-500 dark:text-slate-400"
       >
         ← Retour
       </button>
 
       {/* Titre de la page */}
-      <h1 style={{ textAlign: "center", color: "#1e40af", fontSize: "2rem", fontWeight: "bold", marginBottom: "24px" }}>
+      <h1 className="text-center text-blue-800 dark:text-blue-400 text-3xl font-bold mb-6">
         📋 Mes Listes
       </h1>
 
       {/* Bouton pour ouvrir le formulaire de création */}
-      <div style={{ textAlign: "center", marginBottom: "24px" }}>
+      <div className="text-center mb-6">
         <button
           onClick={() => setAfficherFormulaire(true)}
-          style={{ padding: "10px 24px", backgroundColor: "#1e40af", color: "white", border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+          className="px-6 py-2.5 bg-blue-800 text-white border-none rounded-lg text-base cursor-pointer font-semibold"
         >
           ➕ Nouvelle liste
         </button>
       </div>
 
       {/* Liste de toutes les setlists */}
-      <div style={{ maxWidth: "500px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div className="max-w-125 mx-auto flex flex-col gap-3">
 
         {listes.map((liste) => (
           <div
             key={liste.id}
-            style={{ backgroundColor: "white", borderRadius: "12px", padding: "16px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+            className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.1)] flex justify-between items-center"
           >
             {/* Nom de la liste + nombre de chants — cliquable pour consulter */}
             <div
               onClick={() => navigate(`/liste/${liste.id}`)}
-              style={{ cursor: "pointer", flex: 1 }}
+              className="cursor-pointer flex-1"
             >
-              <h2 style={{ color: "#1e293b", fontSize: "1.1rem", fontWeight: "600", marginBottom: "4px" }}>
+              <h2 className="text-slate-800 dark:text-slate-100 text-[1.1rem] font-semibold mb-1">
                 {liste.nom}
               </h2>
-              <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
+              <p className="text-slate-500 dark:text-slate-400 text-[0.9rem]">
                 {liste.chants?.length || 0} chant(s)
               </p>
             </div>
@@ -143,7 +146,7 @@ function MesListes() {
             {/* Bouton supprimer cette liste */}
             <button
               onClick={() => setListeASupprimer(liste)}
-              style={{ padding: "8px 12px", borderRadius: "8px", border: "none", backgroundColor: "#fee2e2", color: "#dc2626", cursor: "pointer", fontWeight: "600" }}
+              className="px-3 py-2 rounded-lg border-none bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 cursor-pointer font-semibold"
             >
               🗑️
             </button>
@@ -152,7 +155,7 @@ function MesListes() {
 
         {/* Message si aucune liste */}
         {listes.length === 0 && (
-          <p style={{ textAlign: "center", color: "#94a3b8" }}>
+          <p className="text-center text-slate-400">
             Aucune liste pour l'instant.
           </p>
         )}
@@ -162,10 +165,10 @@ function MesListes() {
       {/* MODALE : Créer une nouvelle liste            */}
       {/* ============================================ */}
       {afficherFormulaire && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
-          <div style={{ backgroundColor: "white", borderRadius: "16px", padding: "32px", maxWidth: "400px", width: "90%", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-100 w-[90%] shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
 
-            <h2 style={{ color: "#1e293b", fontSize: "1.3rem", fontWeight: "bold", marginBottom: "16px", textAlign: "center" }}>
+            <h2 className="text-slate-800 dark:text-slate-100 text-[1.3rem] font-bold mb-4 text-center">
               Nouvelle liste
             </h2>
 
@@ -177,21 +180,21 @@ function MesListes() {
               onChange={(e) => setNomNouvelleListe(e.target.value)}
               // onKeyDown : si l'utilisateur appuie sur Entrée, on crée la liste
               onKeyDown={(e) => e.key === "Enter" && creerListe()}
-              style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box", marginBottom: "16px" }}
+              className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-base box-border mb-4 dark:bg-slate-700 dark:text-white"
             />
 
-            <div style={{ display: "flex", gap: "12px" }}>
+            <div className="flex gap-3">
               {/* Annuler */}
               <button
                 onClick={() => { setAfficherFormulaire(false); setNomNouvelleListe(""); }}
-                style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem", cursor: "pointer", color: "#64748b" }}
+                className="flex-1 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-base cursor-pointer text-slate-500 dark:text-slate-400"
               >
                 Annuler
               </button>
               {/* Créer */}
               <button
                 onClick={creerListe}
-                style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "none", backgroundColor: "#1e40af", color: "white", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+                className="flex-1 p-3 rounded-lg border-none bg-blue-800 text-white text-base cursor-pointer font-semibold"
               >
                 Créer
               </button>
@@ -204,30 +207,30 @@ function MesListes() {
       {/* MODALE : Confirmer la suppression d'une liste */}
       {/* ============================================ */}
       {listeASupprimer && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
-          <div style={{ backgroundColor: "white", borderRadius: "16px", padding: "32px", maxWidth: "400px", width: "90%", boxShadow: "0 8px 32px rgba(0,0,0,0.2)", textAlign: "center" }}>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-100 w-[90%] shadow-[0_8px_32px_rgba(0,0,0,0.2)] text-center">
 
-            <div style={{ fontSize: "3rem", marginBottom: "16px" }}>⚠️</div>
+            <div className="text-5xl mb-4">⚠️</div>
 
-            <h2 style={{ color: "#1e293b", fontSize: "1.3rem", fontWeight: "bold", marginBottom: "8px" }}>
+            <h2 className="text-slate-800 dark:text-slate-100 text-[1.3rem] font-bold mb-2">
               Supprimer cette liste ?
             </h2>
 
-            <p style={{ color: "#64748b", marginBottom: "24px" }}>
+            <p className="text-slate-500 dark:text-slate-400 mb-6">
               Es-tu sûr de vouloir supprimer <strong>"{listeASupprimer.nom}"</strong> ?
               Les chants ne seront pas supprimés, seulement la liste.
             </p>
 
-            <div style={{ display: "flex", gap: "12px" }}>
+            <div className="flex gap-3">
               <button
                 onClick={() => setListeASupprimer(null)}
-                style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem", cursor: "pointer", color: "#64748b", fontWeight: "600" }}
+                className="flex-1 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-base cursor-pointer text-slate-500 dark:text-slate-400 font-semibold"
               >
                 Annuler
               </button>
               <button
                 onClick={supprimerListe}
-                style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "none", backgroundColor: "#dc2626", color: "white", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+                className="flex-1 p-3 rounded-lg border-none bg-red-600 text-white text-base cursor-pointer font-semibold"
               >
                 Oui, supprimer
               </button>

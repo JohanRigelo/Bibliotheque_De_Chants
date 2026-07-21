@@ -103,7 +103,7 @@ function ModifierChant() {
   // ============================================
   if (chargement) {
     return (
-      <div style={{ textAlign: "center", padding: "40px", color: "#64748b" }}>
+      <div className="text-center p-10 text-slate-500 dark:text-slate-400">
         Chargement...
       </div>
     );
@@ -114,41 +114,41 @@ function ModifierChant() {
   // Identique au formulaire d'ajout mais avec les champs pré-remplis
   // ============================================
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
+    <div className="min-h-screen bg-[#f0f4ff] dark:bg-slate-900 p-5">
 
-      <h1 style={{ textAlign: "center", color: "#1e40af", fontSize: "2rem", fontWeight: "bold", marginBottom: "24px" }}>
+      <h1 className="text-center text-blue-800 dark:text-blue-400 text-3xl font-bold mb-6">
         ✏️ Modifier le chant
       </h1>
 
-      <div style={{ maxWidth: "600px", margin: "0 auto", backgroundColor: "white", borderRadius: "16px", padding: "24px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)" }}>
+      <div className="max-w-150 mx-auto bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.1)]">
 
         {/* Champ Titre */}
-        <div style={{ marginBottom: "16px" }}>
-          <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", color: "#1e293b" }}>
+        <div className="mb-4">
+          <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-100">
             Titre du chant
           </label>
           <input
             type="text"
             value={titre}
             onChange={(e) => setTitre(e.target.value)}
-            style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box" }}
+            className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-base box-border dark:bg-slate-700 dark:text-white"
           />
         </div>
 
         {/* Champ Tonalité */}
-        <div style={{ marginBottom: "16px" }}>
-          <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", color: "#1e293b" }}>
+        <div className="mb-4">
+          <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-100">
             Tonalité de base
           </label>
           <select
             value={tonalite}
             onChange={(e) => {
-            const nouvelleTonalite = e.target.value;
-            setTonalite(nouvelleTonalite);
-            // On met à jour automatiquement la balise {key:...} dans le contenu
-            setContenu((contenuActuel) => mettreAJourTagKey(contenuActuel, nouvelleTonalite));
-          }}
-            style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box" }}
+              const nouvelleTonalite = e.target.value;
+              setTonalite(nouvelleTonalite);
+              // On met à jour automatiquement la balise {key:...} dans le contenu
+              setContenu((contenuActuel) => mettreAJourTagKey(contenuActuel, nouvelleTonalite));
+            }}
+            className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-base box-border dark:bg-slate-700 dark:text-white"
           >
             {/* On génère une option pour chaque tonalité */}
             {tonalites.map((t) => (
@@ -158,31 +158,31 @@ function ModifierChant() {
         </div>
 
         {/* Champ Contenu */}
-        <div style={{ marginBottom: "24px" }}>
-          <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", color: "#1e293b" }}>
+        <div className="mb-6">
+          <label className="block font-semibold mb-1.5 text-slate-800 dark:text-slate-100">
             Paroles et accords
           </label>
-          <p style={{ fontSize: "0.85rem", color: "#64748b", marginBottom: "8px" }}>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-2">
             Place les accords entre crochets juste avant la syllabe. Ex: [G]Amazing [C]grace
           </p>
           {/* rows={12} : hauteur du textarea en nombre de lignes */}
-          {/* resize: "vertical" : l'utilisateur peut agrandir verticalement */}
-          {/* fontFamily: "monospace" : police à largeur fixe pour mieux voir les accords */}
+          {/* resize-y : l'utilisateur peut agrandir verticalement */}
+          {/* font-mono : police à largeur fixe pour mieux voir les accords */}
           <textarea
             value={contenu}
             onChange={(e) => setContenu(e.target.value)}
             rows={12}
-            style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box", fontFamily: "monospace", resize: "vertical" }}
+            className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-base box-border font-mono resize-y dark:bg-slate-700 dark:text-white"
           />
         </div>
 
         {/* Boutons Annuler et Enregistrer */}
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div className="flex gap-3">
 
           {/* Annuler : retourne sur la page du chant sans sauvegarder */}
           <button
             onClick={() => navigate(`/chant/${id}`)}
-            style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem", cursor: "pointer", color: "#64748b" }}
+            className="flex-1 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-base cursor-pointer text-slate-500 dark:text-slate-400"
           >
             Annuler
           </button>
@@ -190,7 +190,7 @@ function ModifierChant() {
           {/* Enregistrer : appelle la fonction sauvegarder() */}
           <button
             onClick={sauvegarder}
-            style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "none", backgroundColor: "#1e40af", color: "white", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+            className="flex-1 p-3 rounded-lg border-none bg-blue-800 text-white text-base cursor-pointer font-semibold"
           >
             Enregistrer
           </button>

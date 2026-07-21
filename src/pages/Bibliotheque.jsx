@@ -98,34 +98,34 @@ function Bibliotheque() {
   // Tout ce qui est entre () après return est du JSX
   // JSX = HTML avec du JavaScript dedans
   // ============================================
- return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
+  return (
+    <div className="min-h-screen bg-[#f0f4ff] p-5">
 
       {/* Titre principal de la page */}
-      <h1 style={{ textAlign: "center", color: "#1e40af", fontSize: "2rem", fontWeight: "bold", marginBottom: "24px" }}>
+      <h1 className="text-center text-blue-800 text-3xl font-bold mb-6">
         🎵 Bibliothèque de Chants
       </h1>
 
       {/* Boutons en haut de la bibliothèque */}
-<div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "20px" }}>
+      <div className="flex justify-center gap-3 mb-5">
 
-  {/* Bouton pour ajouter un nouveau chant */}
-  <button
-    onClick={() => navigate("/ajouter")}
-    style={{ padding: "10px 24px", backgroundColor: "#1e40af", color: "white", border: "none", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
-  >
-    ➕ Ajouter un chant
-  </button>
+        {/* Bouton pour ajouter un nouveau chant */}
+        <button
+          onClick={() => navigate("/ajouter")}
+          className="px-6 py-2.5 bg-blue-800 text-white border-none rounded-lg text-base cursor-pointer font-semibold"
+        >
+          ➕ Ajouter un chant
+        </button>
 
-  {/* Bouton pour accéder aux setlists */}
-  <button
-    onClick={() => navigate("/listes")}
-    style={{ padding: "10px 24px", backgroundColor: "white", color: "#1e40af", border: "2px solid #1e40af", borderRadius: "8px", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
-  >
-    📋 Mes listes
-  </button>
+        {/* Bouton pour accéder aux setlists */}
+        <button
+          onClick={() => navigate("/listes")}
+          className="px-6 py-2.5 bg-white text-blue-800 border-2 border-blue-800 rounded-lg text-base cursor-pointer font-semibold"
+        >
+          📋 Mes listes
+        </button>
 
-</div>
+      </div>
 
       {/* Barre de recherche */}
       <input
@@ -133,39 +133,25 @@ function Bibliotheque() {
         placeholder="Rechercher un chant..."
         value={recherche}
         onChange={(e) => setRecherche(e.target.value)}
-        style={{
-          display: "block",
-          width: "100%",
-          maxWidth: "500px",
-          margin: "0 auto 24px auto",
-          padding: "10px 16px",
-          borderRadius: "8px",
-          border: "1px solid #cbd5e1",
-          fontSize: "1rem"
-        }}
+        className="block w-full max-w-[500px] mx-auto mb-6 px-4 py-2.5 rounded-lg border border-slate-300 text-base"
       />
 
       {/* Conteneur de la liste des chants */}
-      <div style={{ maxWidth: "500px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "12px" }}>
+      <div className="max-w-[500px] mx-auto flex flex-col gap-3">
 
         {chantsFiltres.map((chant) => (
           <div
-            key={chant.id}onClick={() => navigate(`/chant/${chant.id}`)}
-            style={{
-              backgroundColor: "white",
-              borderRadius: "12px",
-              padding: "16px",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-              cursor: "pointer"
-            }}
+            key={chant.id}
+            onClick={() => navigate(`/chant/${chant.id}`)}
+            className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.1)] cursor-pointer"
           >
-            <h2 style={{ color: "#1e293b", fontSize: "1.1rem", fontWeight: "600" }}>{chant.titre}</h2>
-            <p style={{ color: "#64748b", fontSize: "0.9rem" }}>Tonalité : {chant.tonalite}</p>
+            <h2 className="text-slate-800 text-lg font-semibold">{chant.titre}</h2>
+            <p className="text-slate-500 text-sm">Tonalité : {chant.tonalite}</p>
           </div>
         ))}
 
         {chantsFiltres.length === 0 && (
-          <p style={{ textAlign: "center", color: "#94a3b8" }}>Aucun chant trouvé.</p>
+          <p className="text-center text-slate-400">Aucun chant trouvé.</p>
         )}
       </div>
     </div>

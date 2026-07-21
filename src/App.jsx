@@ -5,10 +5,12 @@ import DetailChant from "./pages/DetailChant";
 import ModifierChant from "./pages/ModifierChant";
 import MesListes from "./pages/MesListes";
 import DetailListe from "./pages/DetailListe";
+import ThemeToggle from "./ThemeToggle";
 
 function App() {
   return (
     <BrowserRouter>
+      <ThemeToggle />
       <Routes>
         <Route path="/" element={<Bibliotheque />} />
         <Route path="/ajouter" element={<AjouterChant />} />
