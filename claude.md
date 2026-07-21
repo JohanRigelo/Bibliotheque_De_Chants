@@ -72,8 +72,14 @@ Cascade Layers). Ce bloc a été supprimé. `src/index.css` doit rester minimal.
 
 ## Mode nuit (dark mode)
 
-Mis en place et actif sur les 3 pages déjà migrées vers Tailwind :
+Mis en place et actif sur toutes les pages :
 
+- `src/components/PageLayout.jsx` : composant wrapper qui centralise le fond de
+  page (`min-h-screen bg-[#f0f4ff] dark:bg-slate-900 p-5`) pour éviter de
+  répéter ces classes sur chaque page. Utilisé par `Bibliotheque.jsx`,
+  `AjouterChant.jsx`, `ModifierChant.jsx`, `MesListes.jsx` et
+  `DetailListe.jsx`. Toute nouvelle page (ou page migrée) doit utiliser
+  `<PageLayout>` plutôt que de redéclarer ce `<div>`.
 - `src/index.css` contient `@custom-variant dark (&:where(.dark, .dark *));`
   pour piloter le mode sombre par une classe `.dark` sur `<html>` plutôt que
   uniquement par la préférence système.
