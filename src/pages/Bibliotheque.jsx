@@ -16,6 +16,7 @@ import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 import { useNavigate } from "react-router-dom";
+import PageLayout from "../components/PageLayout";
 
 // ============================================
 // COMPOSANT PRINCIPAL
@@ -99,10 +100,10 @@ function Bibliotheque() {
   // JSX = HTML avec du JavaScript dedans
   // ============================================
   return (
-    <div className="min-h-screen bg-[#f0f4ff] p-5">
+    <PageLayout>
 
       {/* Titre principal de la page */}
-      <h1 className="text-center text-blue-800 text-3xl font-bold mb-6">
+      <h1 className="text-center text-blue-800 dark:text-blue-400 text-3xl font-bold mb-6">
         🎵 Bibliothèque de Chants
       </h1>
 
@@ -120,7 +121,7 @@ function Bibliotheque() {
         {/* Bouton pour accéder aux setlists */}
         <button
           onClick={() => navigate("/listes")}
-          className="px-6 py-2.5 bg-white text-blue-800 border-2 border-blue-800 rounded-lg text-base cursor-pointer font-semibold"
+          className="px-6 py-2.5 bg-white dark:bg-slate-800 text-blue-800 dark:text-blue-400 border-2 border-blue-800 dark:border-blue-400 rounded-lg text-base cursor-pointer font-semibold"
         >
           📋 Mes listes
         </button>
@@ -133,7 +134,7 @@ function Bibliotheque() {
         placeholder="Rechercher un chant..."
         value={recherche}
         onChange={(e) => setRecherche(e.target.value)}
-        className="block w-full max-w-[500px] mx-auto mb-6 px-4 py-2.5 rounded-lg border border-slate-300 text-base"
+        className="block w-full max-w-[500px] mx-auto mb-6 px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-base dark:bg-slate-700 dark:text-white"
       />
 
       {/* Conteneur de la liste des chants */}
@@ -143,10 +144,10 @@ function Bibliotheque() {
           <div
             key={chant.id}
             onClick={() => navigate(`/chant/${chant.id}`)}
-            className="bg-white rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.1)] cursor-pointer"
+            className="bg-white dark:bg-slate-800 rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.1)] cursor-pointer"
           >
-            <h2 className="text-slate-800 text-lg font-semibold">{chant.titre}</h2>
-            <p className="text-slate-500 text-sm">Tonalité : {chant.tonalite}</p>
+            <h2 className="text-slate-800 dark:text-slate-100 text-lg font-semibold">{chant.titre}</h2>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Tonalité : {chant.tonalite}</p>
           </div>
         ))}
 
@@ -154,7 +155,7 @@ function Bibliotheque() {
           <p className="text-center text-slate-400">Aucun chant trouvé.</p>
         )}
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

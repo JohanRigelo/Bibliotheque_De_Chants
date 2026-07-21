@@ -19,6 +19,7 @@ import { db } from "../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 import { mettreAJourTagKey } from "../accords";
+import PageLayout from "../components/PageLayout";
 
 function ModifierChant() {
 
@@ -114,7 +115,7 @@ function ModifierChant() {
   // Identique au formulaire d'ajout mais avec les champs pré-remplis
   // ============================================
   return (
-    <div className="min-h-screen bg-[#f0f4ff] dark:bg-slate-900 p-5">
+    <PageLayout>
 
       <h1 className="text-center text-blue-800 dark:text-blue-400 text-3xl font-bold mb-6">
         ✏️ Modifier le chant
@@ -196,7 +197,7 @@ function ModifierChant() {
           </button>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

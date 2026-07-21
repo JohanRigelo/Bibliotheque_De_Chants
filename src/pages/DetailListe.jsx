@@ -5,6 +5,7 @@ import { db } from "../firebase";
 // getDoc : lit un document
 // updateDoc : met à jour un document existant
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import PageLayout from "../components/PageLayout";
 
 function DetailListe() {
 
@@ -91,7 +92,7 @@ function DetailListe() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f4ff] dark:bg-slate-900 p-5">
+    <PageLayout>
 
       {/* Bouton retour vers Mes Listes */}
       <button
@@ -186,7 +187,7 @@ function DetailListe() {
         </div>
       )}
 
-    </div>
+    </PageLayout>
   );
 }
 

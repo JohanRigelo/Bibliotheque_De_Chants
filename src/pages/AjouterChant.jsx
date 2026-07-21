@@ -11,6 +11,7 @@ import { collection, addDoc } from "firebase/firestore";
 // useNavigate : permet de rediriger l'utilisateur vers une autre page
 import { useNavigate } from "react-router-dom";
 import { mettreAJourTagKey } from "../accords";
+import PageLayout from "../components/PageLayout";
 
 function AjouterChant() {
 
@@ -61,7 +62,7 @@ function AjouterChant() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f4ff] p-5">
+    <PageLayout>
 
       {/* Titre de la page */}
       <h1 className="text-center text-blue-800 text-3xl font-bold mb-6">
@@ -145,7 +146,7 @@ function AjouterChant() {
           </button>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

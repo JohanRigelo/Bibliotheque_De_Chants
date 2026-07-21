@@ -7,6 +7,7 @@ import { db } from "../firebase";
 // deleteDoc : supprime un document
 // doc : pointe vers un document précis
 import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
+import PageLayout from "../components/PageLayout";
 
 function MesListes() {
 
@@ -97,7 +98,7 @@ function MesListes() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f4ff] dark:bg-slate-900 p-5">
+    <PageLayout>
 
       {/* Bouton retour vers la bibliothèque */}
       <button
@@ -239,7 +240,7 @@ function MesListes() {
         </div>
       )}
 
-    </div>
+    </PageLayout>
   );
 }
 
