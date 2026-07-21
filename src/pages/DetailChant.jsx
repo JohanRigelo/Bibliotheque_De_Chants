@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import { doc, getDoc, deleteDoc, updateDoc, collection, getDocs, addDoc } from "firebase/firestore";
 import { parseContenu, extraireMetadonnees } from "../accords";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import PageLayout from "../components/PageLayout";
 
 
 function DetailChant() {
@@ -67,7 +68,7 @@ useEffect(() => {
   // Tant que le chant n'est pas chargé, on affiche "Chargement..."
   if (!chant) {
     return (
-      <div style={{ textAlign: "center", padding: "40px", color: "#64748b" }}>
+      <div className="text-center p-10 text-slate-500 dark:text-slate-400">
         Chargement...
       </div>
     );
@@ -189,9 +190,9 @@ const optionsTransposition = GAMME.map((note, i) => {
 });
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f4ff", padding: "20px" }}>
+    <PageLayout>
 
-      <div style={{ display: "flex", gap: "12px", marginBottom: "20px", flexWrap: "wrap" }}>
+      <div className="flex gap-3 mb-5 flex-wrap">
 
         <button
           onClick={() => {
@@ -201,7 +202,7 @@ const optionsTransposition = GAMME.map((note, i) => {
               navigate("/");
             }
           }}
-          style={{ padding: "8px 16px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", cursor: "pointer", color: "#64748b" }}
+          className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 cursor-pointer text-slate-500 dark:text-slate-400"
         >
           ← Retour
         </button>
@@ -211,19 +212,19 @@ const optionsTransposition = GAMME.map((note, i) => {
             <button
               onClick={() => navigate(`/chant/${chantsListe[indexCourant - 1]}?listeId=${listeId}&index=${indexCourant - 1}`)}
               disabled={indexCourant <= 0}
-              style={{ padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: indexCourant <= 0 ? "#e2e8f0" : "#6366f1", color: indexCourant <= 0 ? "#94a3b8" : "white", cursor: indexCourant <= 0 ? "default" : "pointer", fontWeight: "600" }}
+              className={`px-4 py-2 rounded-lg border-none font-semibold ${indexCourant <= 0 ? "bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-default" : "bg-indigo-500 text-white cursor-pointer"}`}
             >
               ◀ Précédent
             </button>
 
-            <span style={{ padding: "8px", color: "#64748b", fontSize: "0.9rem", alignSelf: "center" }}>
+            <span className="p-2 text-slate-500 dark:text-slate-400 text-[0.9rem] self-center">
               {indexCourant + 1} / {chantsListe.length}
             </span>
 
             <button
               onClick={() => navigate(`/chant/${chantsListe[indexCourant + 1]}?listeId=${listeId}&index=${indexCourant + 1}`)}
               disabled={indexCourant >= chantsListe.length - 1}
-              style={{ padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: indexCourant >= chantsListe.length - 1 ? "#e2e8f0" : "#6366f1", color: indexCourant >= chantsListe.length - 1 ? "#94a3b8" : "white", cursor: indexCourant >= chantsListe.length - 1 ? "default" : "pointer", fontWeight: "600" }}
+              className={`px-4 py-2 rounded-lg border-none font-semibold ${indexCourant >= chantsListe.length - 1 ? "bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-default" : "bg-indigo-500 text-white cursor-pointer"}`}
             >
               Suivant ▶
             </button>
@@ -232,46 +233,46 @@ const optionsTransposition = GAMME.map((note, i) => {
 
         <button
           onClick={() => navigate(`/modifier/${chant.id}`)}
-          style={{ padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: "#1e40af", color: "white", cursor: "pointer", fontWeight: "600" }}
+          className="px-4 py-2 rounded-lg border-none bg-blue-800 text-white cursor-pointer font-semibold"
         >
           ✏️ Modifier
         </button>
 
         <button
           onClick={() => setAfficherConfirmation(true)}
-          style={{ padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: "#dc2626", color: "white", cursor: "pointer", fontWeight: "600" }}
+          className="px-4 py-2 rounded-lg border-none bg-red-600 text-white cursor-pointer font-semibold"
         >
           🗑️ Supprimer
         </button>
 
         <button
           onClick={() => { setAfficherModaleListe(true); chargerListes(); }}
-          style={{ padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: "#059669", color: "white", cursor: "pointer", fontWeight: "600" }}
+          className="px-4 py-2 rounded-lg border-none bg-emerald-600 text-white cursor-pointer font-semibold"
         >
           📋 Ajouter à une liste
         </button>
 
       </div>
       {/* En-tête du chant */}
-      <div style={{ maxWidth: "700px", margin: "0 auto" }}>
+      <div className="max-w-175 mx-auto">
 
         {/* Titre : {t:} s'il existe, sinon le titre Firebase */}
-        <h1 style={{ color: "#1e40af", fontSize: "2rem", fontWeight: "bold", textAlign: "center", marginBottom: "4px" }}>
+        <h1 className="text-blue-800 dark:text-blue-400 text-[2rem] font-bold text-center mb-1">
           {meta.titre || chant.titre}
         </h1>
 
         {/* Sous-titre {st:} : affiché uniquement s'il existe */}
         {meta.sousTitre && (
-          <p style={{ textAlign: "center", color: "#64748b", fontSize: "1rem", marginBottom: "4px" }}>
+          <p className="text-center text-slate-500 dark:text-slate-400 text-base mb-1">
             {meta.sousTitre}
           </p>
         )}
 
         {/* Commentaires/copyright {c:} : une ligne par commentaire */}
         {meta.commentaires.length > 0 && (
-          <div style={{ textAlign: "center", marginBottom: "8px" }}>
+          <div className="text-center mb-2">
             {meta.commentaires.map((commentaire, index) => (
-              <p key={index} style={{ color: "#94a3b8", fontSize: "0.8rem", margin: "2px 0" }}>
+              <p key={index} className="text-slate-400 dark:text-slate-500 text-[0.8rem] my-0.5">
                 {commentaire}
               </p>
             ))}
@@ -279,19 +280,19 @@ const optionsTransposition = GAMME.map((note, i) => {
         )}
 
         {/* Tonalité de base */}
-        <p style={{ textAlign: "center", color: "#94a3b8", fontSize: "0.9rem", marginBottom: "20px" }}>
+        <p className="text-center text-slate-400 dark:text-slate-500 text-[0.9rem] mb-5">
           Tonalité de base : <strong>{chant.tonalite}</strong>
         </p>
 
         {/* Menu de transposition */}
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px", backgroundColor: "white", padding: "12px 16px", borderRadius: "12px", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}>
-          <label style={{ fontWeight: "600", color: "#1e293b" }}>
+        <div className="flex items-center gap-3 mb-6 bg-white dark:bg-slate-800 px-4 py-3 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
+          <label className="font-semibold text-slate-800 dark:text-slate-100">
             🎵 Transposition :
           </label>
          <select
             value={transposition}
             onChange={(e) => setTransposition(Number(e.target.value))}
-            style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem" }}
+            className="px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 text-base dark:bg-slate-700 dark:text-white"
           >
             {optionsTransposition.map((opt) => (
               <option key={opt.valeur} value={opt.valeur}>
@@ -302,15 +303,15 @@ const optionsTransposition = GAMME.map((note, i) => {
         </div>
 
         {/* Affichage des paroles avec accords au-dessus */}
-        <div style={{ backgroundColor: "white", borderRadius: "16px", padding: "24px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)", fontFamily: "monospace" }}>
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.1)] font-mono">
           {lignes.map((segments, indexLigne) => (
-            <div key={indexLigne} style={{ marginBottom: "8px", display: "flex", flexWrap: "wrap" }}>
+            <div key={indexLigne} className="mb-2 flex flex-wrap">
               {segments.map((segment, indexSegment) => (
-                <span key={indexSegment} style={{ display: "inline-flex", flexDirection: "column" }}>
-                  <span style={{ color: "#1e40af", fontWeight: "bold", fontSize: "0.85rem", minHeight: "20px" }}>
+                <span key={indexSegment} className="inline-flex flex-col">
+                  <span className="text-blue-800 dark:text-blue-400 font-bold text-[0.85rem] min-h-5">
                     {segment.accord}
                   </span>
-                  <span style={{ color: "#1e293b", fontSize: "1rem" }}>
+                  <span className="text-slate-800 dark:text-slate-100 text-base">
                     {segment.texte || "\u00A0"}
                   </span>
                 </span>
@@ -324,28 +325,28 @@ const optionsTransposition = GAMME.map((note, i) => {
       {/* MODALE : Ajouter le chant à une liste        */}
       {/* ============================================ */}
       {afficherModaleListe && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
-          <div style={{ backgroundColor: "white", borderRadius: "16px", padding: "32px", maxWidth: "400px", width: "90%", boxShadow: "0 8px 32px rgba(0,0,0,0.2)" }}>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-100 w-[90%] shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
 
-            <h2 style={{ color: "#1e293b", fontSize: "1.3rem", fontWeight: "bold", marginBottom: "16px", textAlign: "center" }}>
+            <h2 className="text-slate-800 dark:text-slate-100 text-[1.3rem] font-bold mb-4 text-center">
               📋 Ajouter à une liste
             </h2>
 
             {/* Listes existantes */}
             {listes.length > 0 && (
-              <div style={{ marginBottom: "16px" }}>
-                <p style={{ color: "#64748b", fontSize: "0.9rem", marginBottom: "8px", fontWeight: "600" }}>
+              <div className="mb-4">
+                <p className="text-slate-500 dark:text-slate-400 text-[0.9rem] mb-2 font-semibold">
                   Listes existantes :
                 </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <div className="flex flex-col gap-2">
                   {listes.map((liste) => (
                     <button
                       key={liste.id}
                       onClick={() => ajouterAListe(liste)}
-                      style={{ padding: "10px 16px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: "1rem", color: "#1e293b" }}
+                      className="px-4 py-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 cursor-pointer text-left text-base text-slate-800 dark:text-slate-100"
                     >
                       {liste.nom}
-                      <span style={{ color: "#94a3b8", fontSize: "0.85rem", marginLeft: "8px" }}>
+                      <span className="text-slate-400 dark:text-slate-500 text-[0.85rem] ml-2">
                         ({liste.chants?.length || 0} chant(s))
                       </span>
                     </button>
@@ -355,10 +356,10 @@ const optionsTransposition = GAMME.map((note, i) => {
             )}
 
             {/* Séparateur */}
-            <div style={{ borderTop: "1px solid #e2e8f0", margin: "16px 0" }} />
+            <div className="border-t border-slate-200 dark:border-slate-600 my-4" />
 
             {/* Créer une nouvelle liste */}
-            <p style={{ color: "#64748b", fontSize: "0.9rem", marginBottom: "8px", fontWeight: "600" }}>
+            <p className="text-slate-500 dark:text-slate-400 text-[0.9rem] mb-2 font-semibold">
               Ou créer une nouvelle liste :
             </p>
             <input
@@ -367,11 +368,11 @@ const optionsTransposition = GAMME.map((note, i) => {
               value={nomNouvelleListe}
               onChange={(e) => setNomNouvelleListe(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && creerListeEtAjouter()}
-              style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", fontSize: "1rem", boxSizing: "border-box", marginBottom: "12px" }}
+              className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 text-base box-border mb-3 dark:bg-slate-700 dark:text-white"
             />
             <button
               onClick={creerListeEtAjouter}
-              style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "none", backgroundColor: "#1e40af", color: "white", fontSize: "1rem", cursor: "pointer", fontWeight: "600", marginBottom: "12px" }}
+              className="w-full p-2.5 rounded-lg border-none bg-blue-800 text-white text-base cursor-pointer font-semibold mb-3"
             >
               Créer et ajouter
             </button>
@@ -379,7 +380,7 @@ const optionsTransposition = GAMME.map((note, i) => {
             {/* Fermer la modale */}
             <button
               onClick={() => { setAfficherModaleListe(false); setNomNouvelleListe(""); }}
-              style={{ width: "100%", padding: "10px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem", cursor: "pointer", color: "#64748b" }}
+              className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-base cursor-pointer text-slate-500 dark:text-slate-400"
             >
               Annuler
             </button>
@@ -392,30 +393,30 @@ const optionsTransposition = GAMME.map((note, i) => {
       {/* MODALE DE CONFIRMATION DE SUPPRESSION        */}
       {/* ============================================ */}
       {afficherConfirmation && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000 }}>
-          <div style={{ backgroundColor: "white", borderRadius: "16px", padding: "32px", maxWidth: "400px", width: "90%", boxShadow: "0 8px 32px rgba(0,0,0,0.2)", textAlign: "center" }}>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-1000">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-100 w-[90%] shadow-[0_8px_32px_rgba(0,0,0,0.2)] text-center">
 
-            <div style={{ fontSize: "3rem", marginBottom: "16px" }}>⚠️</div>
+            <div className="text-5xl mb-4">⚠️</div>
 
-            <h2 style={{ color: "#1e293b", fontSize: "1.3rem", fontWeight: "bold", marginBottom: "8px" }}>
+            <h2 className="text-slate-800 dark:text-slate-100 text-[1.3rem] font-bold mb-2">
               Supprimer ce chant ?
             </h2>
 
-            <p style={{ color: "#64748b", marginBottom: "24px" }}>
+            <p className="text-slate-500 dark:text-slate-400 mb-6">
               Es-tu sûr de vouloir supprimer <strong>"{chant.titre}"</strong> ?
               Cette action est irréversible.
             </p>
 
-            <div style={{ display: "flex", gap: "12px" }}>
+            <div className="flex gap-3">
               <button
                 onClick={() => setAfficherConfirmation(false)}
-                style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "1px solid #cbd5e1", backgroundColor: "white", fontSize: "1rem", cursor: "pointer", color: "#64748b", fontWeight: "600" }}
+                className="flex-1 p-3 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-base cursor-pointer text-slate-500 dark:text-slate-400 font-semibold"
               >
                 Annuler
               </button>
               <button
                 onClick={supprimerChant}
-                style={{ flex: 1, padding: "12px", borderRadius: "8px", border: "none", backgroundColor: "#dc2626", color: "white", fontSize: "1rem", cursor: "pointer", fontWeight: "600" }}
+                className="flex-1 p-3 rounded-lg border-none bg-red-600 text-white text-base cursor-pointer font-semibold"
               >
                 Oui, supprimer
               </button>
@@ -424,7 +425,7 @@ const optionsTransposition = GAMME.map((note, i) => {
         </div>
       )}
 
-    </div>
+    </PageLayout>
   );
 }
 
