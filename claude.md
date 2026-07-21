@@ -93,6 +93,10 @@ Mis en place et actif sur les 3 pages déjà migrées vers Tailwind :
   - champs de formulaire : ajouter `dark:bg-slate-700 dark:text-white` en plus
     de la bordure
 
+## Workflow Git
+- Toujours faire `git add` et `git commit` après une tâche terminée et testée quand je te le demande
+- Ne jamais faire `git push` — je m'en charge manuellement après relecture
+
 ## Environnement de dev
 
 - `npm run dev` : serveur de développement (hot reload automatique sur les
