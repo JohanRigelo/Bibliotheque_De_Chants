@@ -1,5 +1,7 @@
 # Bibliothèque de Chants — Contexte projet
 
+**Projet phare du [portfolio](https://johan-rigelo.vercel.app) de Johan** (badge "PROJET PRINCIPAL", repo `github.com/JohanRigelo/Bibliotheque_De_Chants`, démo `bibliotheque-de-chants.vercel.app`). D'autres dossiers ailleurs (`Projet Test/BibliothequeDeChant`, `Projet Test/my-song-app`) sont des tentatives parallèles abandonnées, pas à confondre avec celui-ci.
+
 Application React (Vite) + Firebase/Firestore pour gérer une bibliothèque de chants
 avec paroles, accords, transposition, et setlists ("Mes listes").
 
@@ -101,7 +103,8 @@ Mis en place et actif sur toutes les pages :
 
 ## Workflow Git
 - Toujours faire `git add` et `git commit` après une tâche terminée et testée quand je te le demande
-- Ne jamais faire `git push` — je m'en charge manuellement après relecture
+- Toujours demander l'autorisation avant de faire `git push` — ne jamais push sans confirmation explicite
+- Avant de committer un changement significatif (nouvelle règle métier, changement d'architecture, bug important), mettre à jour ce `CLAUDE.md` dans le même commit. Un hook `pre-commit` local (non bloquant, non versionné) affiche un rappel à chaque commit.
 
 ## Environnement de dev
 
