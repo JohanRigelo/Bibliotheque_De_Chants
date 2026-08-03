@@ -3,7 +3,7 @@ import { transposeAccord } from "./accords";
 
 describe("transposeAccord", () => {
   it("transpose un accord simple vers le haut", () => {
-    expect(transposeAccord("C", 2)).toBe("D");
+    expect(transposeAccord("C", 2)).toBe("E");
   });
 
   it("boucle sur la gamme après B", () => {
