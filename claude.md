@@ -101,6 +101,19 @@ Mis en place et actif sur toutes les pages :
   - champs de formulaire : ajouter `dark:bg-slate-700 dark:text-white` en plus
     de la bordure
 
+## Démarche QA (vitrine pour une reconversion testeur)
+
+- `docs/plan-de-test.md` : plan de test et 40 cas (identifiants `CT-XX-nn`).
+- `docs/campagne-01.md` : exécution manuelle sur le commit `0f061d4`, 33/40 OK, 8 anomalies.
+  Document daté, ne pas le réécrire : les re-tests vont dans une nouvelle campagne.
+- Anomalies : issues GitHub #1 à #8 (`ANO-0n` = issue #n), captures dans `docs/captures/`.
+  Modèle d'issue dans `.github/ISSUE_TEMPLATE/bug.md`.
+- `src/accords.test.js` : les bugs connus sont marqués `it.fails` ; après correction,
+  remplacer par `it`.
+- Johan corrige lui-même les bugs (exercice) : guider, ne pas écrire la correction.
+- Données de test manuelles : titre préfixé `[TEST]`, supprimées en fin de session
+  (la base Firestore est celle de production).
+
 ## Workflow Git
 - Toujours faire `git add` et `git commit` après une tâche terminée et testée quand je te le demande
 - Toujours demander l'autorisation avant de faire `git push` — ne jamais push sans confirmation explicite
