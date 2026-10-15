@@ -60,10 +60,13 @@ useEffect(() => {
       const snapshot = await getDoc(doc(db, "chants", id));
       if (snapshot.exists()) {
         setChant({ id: snapshot.id, ...snapshot.data() });
+      } else {
+        alert("Chant introuvable !");
+        navigate(listeId ? `/liste/${listeId}` : `/`);
       }
     };
     recupererChant();
-  }, [id]);
+  }, [id, listeId, navigate]);
 
   // Tant que le chant n'est pas chargé, on affiche "Chargement..."
   if (!chant) {
